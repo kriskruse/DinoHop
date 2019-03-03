@@ -12,7 +12,7 @@ class Player {
  void show(){
    fill(0);
    rectMode(CENTER);
-   rect(SpaceFromWall, GroundLine - 25,25,25);
+   rect(playerXpos, groundHeight - 25,25,25);
  }
  
  void move(){
