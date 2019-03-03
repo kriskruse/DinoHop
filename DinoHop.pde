@@ -83,7 +83,7 @@ void draw(){
   fill(0);
   //println(frameCount);
  
-  
+  println(player.duck);
 }
 
 //------------Draw, slut----------------------------------------
@@ -94,13 +94,18 @@ void keyPressed(){
     case ' ':
       if (player.posY > 0){
       }else{
-        player.velY = 10;
+        player.velY = 20;
       }      
       println("Space click");
       break;
     case 'b':
       exit();
       break;
+  }
+  if (key == 's'){
+    player.ducking(true);
+  }else {
+  player.ducking(false);
   }
 }
 //------------Input slut----------------------------------------

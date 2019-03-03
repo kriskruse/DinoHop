@@ -2,7 +2,7 @@
 class Player {
   float posY = 0;
   float velY = 0;
-  float gravity = 1.2;
+  float gravity = 0.5;
   
   Boolean duck = false;
   int runCount = -5;
@@ -12,6 +12,8 @@ class Player {
   }
  
    void show() {
+     
+     //----opdatere sprite, skaber en animation når dino hopper eller dukker---
     if (duck && posY == 0) {
       if (runCount < 0) {
 
@@ -32,6 +34,7 @@ class Player {
       }
   }
  
+ //----------Dinos bevægelser og tyngdekraftens påvirkning-------------
  void move(){
    posY += velY;
    
@@ -47,6 +50,8 @@ class Player {
    void ducking(boolean isDucking) {
     if (posY != 0 && isDucking) {
       gravity = 3;
+    }else {
+    gravity = 0.5;
     }
     duck = isDucking;
   }
