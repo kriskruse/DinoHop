@@ -56,4 +56,11 @@ class Player {
     duck = isDucking;
   }
  
+ void update(){
+ 
+ 
+ }
+ 
+ 
+ 
 }

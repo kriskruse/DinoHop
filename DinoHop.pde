@@ -1,5 +1,6 @@
 PFont font;
 Player player;
+Ground ground;
 
 //Billeder
 PImage dinoRun1;
@@ -57,6 +58,7 @@ void setup(){
   font = loadFont("Arial.vlw");
   textFont(font,32);
   player = new Player();
+  ground = new Ground();
   
   
   //----canvas indstillinger
@@ -77,6 +79,8 @@ void draw(){
   drawToScreen();
   player.show();
   player.move();
+  ground.show();
+  
   text(height,300,100);
   text(width,400,100);
   text(groundHeight,500,100);
@@ -84,6 +88,7 @@ void draw(){
   //println(frameCount);
  
   println(player.duck);
+  player.update();
 }
 
 //------------Draw, slut----------------------------------------
@@ -119,4 +124,4 @@ void drawToScreen(){
   line(0, height - groundHeight - 5, width, height - groundHeight - 5);
 
 
-}
+} 
