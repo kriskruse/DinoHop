@@ -1,6 +1,5 @@
 PFont font;
 Player player;
-Ground ground;
 
 //Billeder
 PImage dinoRun1;
@@ -19,7 +18,22 @@ PImage bird1;
 
 int groundHeight = 100;
 int playerXpos = 150;
+int score = 0;
 
+int obstacleTimer = 0;
+int minimumTimeBetweenObstacles = 60;
+int randomAddition = 0;
+int groundCounter = 0;
+float speed = 10;
+
+float Birdcount = 0.15;  //bestemmer hvor mange procent er fugle. 1 = 100%
+
+
+ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+ArrayList<Bird> birds = new ArrayList<Bird>();
+ArrayList<Ground> grounds = new ArrayList<Ground>();
+
+Boolean noFly = false; 
 
 //------------Variable slut-------------------------------------
 
@@ -27,6 +41,11 @@ int playerXpos = 150;
 //------------Setup, Køre en gang-------------------------------
 
 void setup(){
+    //----canvas indstillinger
+  frameRate(60);
+  size(1000,400);
+  
+
   
   //------Textures
   dinoRun1 = loadImage("dinorun0000.png");
@@ -42,28 +61,15 @@ void setup(){
   bird1 = loadImage("berd2.png");
   
   
-  dinoRun1.resize(0,50);
-  dinoRun2.resize(0,50);
-  dinoJump.resize(0,50);
-  dinoDuck.resize(0,50);
-  dinoDuck1.resize(0,50);
-  
-  smallCactus.resize(0,50);
-  bigCactus.resize(0,50);
-  manySmallCactus.resize(0,50);
-  bird.resize(0,50);
-  bird1.resize(0,50);
   
   //------font og andet
   font = loadFont("Arial.vlw");
   textFont(font,32);
   player = new Player();
-  ground = new Ground();
+
   
   
-  //----canvas indstillinger
-  frameRate(60);
-  size(1000,400);
+
   
 
 }
@@ -74,39 +80,60 @@ void setup(){
 //------------Draw, køre hele tiden-----------------------------
 
 void draw(){
-  
-
+  score = frameCount;
+  smooth();
   drawToScreen();
   player.show();
   player.move();
-  ground.show();
+  updateObstacles();
   
-  text(height,300,100);
-  text(width,400,100);
-  text(groundHeight,500,100);
+  
+  text(obstacles.size(),300,100);
+  text(birds.size(),400,100);
+  println(player.velY);
   fill(0);
   //println(frameCount);
  
-  println(player.duck);
+  //println(score);
   player.update();
+  //println(noFly );
+
+  if (noFly == true && player.posY == 0){
+    noFly = false;
+  }
+
 }
 
 //------------Draw, slut----------------------------------------
 
 //------------Input---------------------------------------------
 void keyPressed(){
+
   switch(key){
     case ' ':
-      if (player.posY > 0){
+      if (player.posY > 0 && player.posY < 80 && noFly == false){
+        player.jump(true);
+        noFly = true;
       }else{
-        player.velY = 20;
+        player.jump(false);
       }      
-      println("Space click");
       break;
+      
+     case 'w':
+      if (player.posY > 0 && player.posY < 16 && noFly == false){
+        player.jump(true);
+        noFly = true;
+      }else{
+        player.jump(false);
+      }      
+      break;
+     
     case 'b':
       exit();
       break;
   }
+ 
+  
   if (key == 's'){
     player.ducking(true);
   }else {
@@ -125,3 +152,98 @@ void drawToScreen(){
 
 
 } 
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//called every frame
+void updateObstacles() {
+  obstacleTimer ++;
+  speed += 0.002;
+  if (obstacleTimer > minimumTimeBetweenObstacles + randomAddition) { //if the obstacle timer is high enough then add a new obstacle
+    addObstacle();
+  }
+  groundCounter ++;
+  if (groundCounter> 5) { //every 10 frames add a ground bit
+    groundCounter =0;
+    grounds.add(new Ground());
+  }
+
+  moveObstacles();//move everything
+  showObstacles();
+}
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//moves obstacles to the left based on the speed of the game 
+void moveObstacles() {
+  println(speed);
+  for (int i = 0; i< obstacles.size(); i++) {
+    obstacles.get(i).move(speed);
+    if (obstacles.get(i).posX < -playerXpos) { 
+      obstacles.remove(i);
+      i--;
+    }
+  }
+
+  for (int i = 0; i< birds.size(); i++) {
+    birds.get(i).move(speed);
+    if (birds.get(i).posX < -playerXpos) {
+      birds.remove(i);
+      i--;
+    }
+  }
+  for (int i = 0; i < grounds.size(); i++) {
+    grounds.get(i).move(speed);
+    if (grounds.get(i).posX < -playerXpos) {
+      grounds.remove(i);
+      i--;
+    }
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//every so often add an obstacle 
+void addObstacle() {
+  int lifespan = score;
+  int tempInt;
+  if (lifespan > 1000 && random(1) < Birdcount) { 
+    tempInt = floor(random(3));
+    Bird temp = new Bird(tempInt);//floor(random(3)));
+    birds.add(temp);
+  } else {//otherwise add a cactus
+    tempInt = floor(random(3));
+    Obstacle temp = new Obstacle(tempInt);//floor(random(3)));
+    obstacles.add(temp);
+    tempInt+=3;
+  }
+
+  randomAddition = floor(random(50));
+  obstacleTimer = 0;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//what do you think this does?
+void showObstacles() {
+  for (int i = 0; i< grounds.size(); i++) {
+    grounds.get(i).show();
+  }
+  for (int i = 0; i< obstacles.size(); i++) {
+    obstacles.get(i).show();
+  }
+
+  for (int i = 0; i< birds.size(); i++) {
+    birds.get(i).show();
+  }
+}
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+//resets all the obstacles after dino has died
+void resetObstacles() {
+  obstacles = new ArrayList<Obstacle>();
+  birds = new ArrayList<Bird>();
+  obstacleTimer = 0;
+  randomAddition = 0;
+  groundCounter = 0;
+  speed = 10;
+}
