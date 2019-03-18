@@ -16,9 +16,9 @@ PImage bird1;
 
 //---------------------Variable---------------------------------
 
-int groundHeight = 100;
-int playerXpos = 150;
-int score = 0;
+int groundHeight = 100;  //Jord linjens højde fra bunden af frame
+int playerXpos = 150;    //spillers placering fra venstre væg
+int score = 0;           //Score spilleren har opnået
 
 int obstacleTimer = 0;
 int minimumTimeBetweenObstacles = 60;
@@ -87,10 +87,11 @@ void draw(){
   player.move();
   updateObstacles();
   
-  
   text(obstacles.size(),300,100);
   text(birds.size(),400,100);
-  println(player.velY);
+  text("Score:",100,100);
+  text(score,200,100);
+  //println(player.velY);
   fill(0);
   //println(frameCount);
  
@@ -98,9 +99,10 @@ void draw(){
   player.update();
   //println(noFly );
 
-  if (noFly == true && player.posY == 0){
-    noFly = false;
-  }
+  //---------Høj hop forsøg
+  //if (noFly == true && player.posY == 0){
+  //  noFly = false;
+  //}
 
 }
 
@@ -110,31 +112,33 @@ void draw(){
 void keyPressed(){
 
   switch(key){
-    case ' ':
-      if (player.posY > 0 && player.posY < 80 && noFly == false){
-        player.jump(true);
-        noFly = true;
-      }else{
-        player.jump(false);
-      }      
+    case ' ':          //Funktion for tryk på 'Space'/'mellemrum' key på keyboard
+    player.jump(false);
+    //--------------forsøg på højt hop
+      //if (player.posY > 0 && player.posY < 80 && noFly == false){
+      //  player.jump(true);
+      //  noFly = true;
+      //}else{
+      //  player.jump(false);
+      //}      
       break;
       
-     case 'w':
-      if (player.posY > 0 && player.posY < 16 && noFly == false){
-        player.jump(true);
-        noFly = true;
-      }else{
-        player.jump(false);
-      }      
+     case 'w':        //Funktion for tryk på w key på keyboard
+     player.jump(false);
+     //-------forsøg på højt hop
+      //if (player.posY > 0 && player.posY < 16 && noFly == false){
+      //  player.jump(true);
+      //  noFly = true;
+      //}else{
+      //  player.jump(false);
+      //}      
       break;
      
-    case 'b':
+    case 'b':         //Funktion for tryk på b key på keyboard
       exit();
       break;
-  }
- 
-  
-  if (key == 's'){
+  } 
+  if (key == 's'){    //Funktion for tryk på s key på keyboard
     player.ducking(true);
   }else {
   player.ducking(false);
@@ -145,7 +149,7 @@ void keyPressed(){
 //------------tegn på skærm-------------------------------------
 
 void drawToScreen(){
-  background(255);
+  background(255);      //Baggrund overskrivet til hvid 
   stroke(0);
   strokeWeight(2);
   line(0, height - groundHeight - 5, width, height - groundHeight - 5);
@@ -154,27 +158,27 @@ void drawToScreen(){
 } 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-//called every frame
+//opdatere forhændringerne hvert frame
 void updateObstacles() {
   obstacleTimer ++;
   speed += 0.002;
-  if (obstacleTimer > minimumTimeBetweenObstacles + randomAddition) { //if the obstacle timer is high enough then add a new obstacle
+  if (obstacleTimer > minimumTimeBetweenObstacles + randomAddition) { //Hvis obstacle timer er høj nok tilføj en ny obstacle
     addObstacle();
   }
   groundCounter ++;
-  if (groundCounter> 5) { //every 10 frames add a ground bit
+  if (groundCounter> 5) { //Hvert 10 frames tilføj en ground bit
     groundCounter =0;
     grounds.add(new Ground());
   }
 
-  moveObstacles();//move everything
+  moveObstacles();    //Flyt alting til venstre
   showObstacles();
 }
 
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-//moves obstacles to the left based on the speed of the game 
+//Bevæg alt til venstre baseret på hastigheden af spillet 
 void moveObstacles() {
   println(speed);
   for (int i = 0; i< obstacles.size(); i++) {
@@ -202,7 +206,7 @@ void moveObstacles() {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
-//every so often add an obstacle 
+//Tilføjer en forhændring til banen 
 void addObstacle() {
   int lifespan = score;
   int tempInt;
@@ -222,7 +226,7 @@ void addObstacle() {
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-//what do you think this does?
+//Hviser Fohændringer
 void showObstacles() {
   for (int i = 0; i< grounds.size(); i++) {
     grounds.get(i).show();
@@ -238,7 +242,7 @@ void showObstacles() {
 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
-//resets all the obstacles after dino has died
+//Resetter banen når dinoen rammer en forhændring
 void resetObstacles() {
   obstacles = new ArrayList<Obstacle>();
   birds = new ArrayList<Bird>();
@@ -246,4 +250,6 @@ void resetObstacles() {
   randomAddition = 0;
   groundCounter = 0;
   speed = 10;
+  frameCount = 0;
+  score = 0;
 }

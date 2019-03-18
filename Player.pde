@@ -33,6 +33,10 @@ class Player {
       } else {
         image(dinoJump, playerXpos - dinoJump.width/2, height - groundHeight - (posY + dinoJump.height));
       }
+   runCount++;
+   if (runCount > 5){
+     runCount = -5;
+   }
   }
  
  //----------Dinos bevægelser og tyngdekraftens påvirkning-------------
@@ -76,16 +80,21 @@ class Player {
  
  //---------hopper
    void jump(boolean bigJump) {
-    if (player.posY >= 0 && player.posY < 80 && noFly == false) {
-      if (bigJump) {
-        gravity = 1;
-        velY = 15;
-        noFly = true;
-      } else {
-        gravity = 1.2;
-        velY = 9;
-      }
+    if (player.posY == 0){
+    gravity = 1;
+    velY = 9;
     }
+     //---------forsøg på højt hop
+    // if (player.posY >= 0 && player.posY < 80 && noFly == false) {
+    //  if (bigJump) {
+    //    gravity = 1;
+    //    velY = 15;
+    //    noFly = true;
+    //  } else {
+    //    gravity = 1.2;
+    //    velY = 9;
+    //  }
+    //}
   }
  
  
