@@ -1,5 +1,6 @@
 PFont font;
 Player player;
+SaveSys savesys = new SaveSys();
 
 //Billeder
 PImage dinoRun1;
@@ -41,11 +42,16 @@ Boolean noFly = false;
 //------------Setup, Køre en gang-------------------------------
 
 void setup(){
-    //----canvas indstillinger
+  //----canvas indstillinger
   frameRate(60);
   size(1000,400);
   
+  //-----DATA load test
+  savesys.CheckForFile();
+  savesys.LoadFile();  //Loader highscoren fra sidst
 
+   
+  
   
   //------Textures
   dinoRun1 = loadImage("dinorun0000.png");
@@ -80,7 +86,7 @@ void setup(){
 //------------Draw, køre hele tiden-----------------------------
 
 void draw(){
-  score = frameCount;
+  score = frameCount/2;
   smooth();
   drawToScreen();
   player.show();
@@ -91,18 +97,14 @@ void draw(){
   text(birds.size(),400,100);
   text("Score:",100,100);
   text(score,200,100);
-  //println(player.velY);
-  fill(0);
-  //println(frameCount);
+  text(savesys.HighScore, 700,100);
  
-  //println(score);
+  fill(0);
+  
+ 
+ 
   player.update();
-  //println(noFly );
-
-  //---------Høj hop forsøg
-  //if (noFly == true && player.posY == 0){
-  //  noFly = false;
-  //}
+  
 
 }
 
@@ -113,25 +115,11 @@ void keyPressed(){
 
   switch(key){
     case ' ':          //Funktion for tryk på 'Space'/'mellemrum' key på keyboard
-    player.jump(false);
-    //--------------forsøg på højt hop
-      //if (player.posY > 0 && player.posY < 80 && noFly == false){
-      //  player.jump(true);
-      //  noFly = true;
-      //}else{
-      //  player.jump(false);
-      //}      
+    player.jump(false);    
       break;
       
      case 'w':        //Funktion for tryk på w key på keyboard
-     player.jump(false);
-     //-------forsøg på højt hop
-      //if (player.posY > 0 && player.posY < 16 && noFly == false){
-      //  player.jump(true);
-      //  noFly = true;
-      //}else{
-      //  player.jump(false);
-      //}      
+     player.jump(false);  
       break;
      
     case 'b':         //Funktion for tryk på b key på keyboard
@@ -250,6 +238,7 @@ void resetObstacles() {
   randomAddition = 0;
   groundCounter = 0;
   speed = 10;
+  savesys.SaveFile(score);
   frameCount = 0;
   score = 0;
 }
