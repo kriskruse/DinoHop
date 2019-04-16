@@ -1,6 +1,7 @@
 PFont font;
 Player player;
 SaveSys savesys = new SaveSys();
+Menu Menu = new Menu();
 
 //Billeder
 PImage dinoRun1;
@@ -35,6 +36,8 @@ ArrayList<Bird> birds = new ArrayList<Bird>();
 ArrayList<Ground> grounds = new ArrayList<Ground>();
 
 Boolean noFly = false; 
+
+Boolean menu = true;
 
 //------------Variable slut-------------------------------------
 
@@ -86,6 +89,13 @@ void setup(){
 //------------Draw, køre hele tiden-----------------------------
 
 void draw(){
+  
+  if (menu) {
+    Menu.MenuSide();
+    
+    
+  }else{
+  
   score = frameCount/2;
   smooth();
   drawToScreen();
@@ -105,7 +115,7 @@ void draw(){
  
   player.update();
   
-
+  }
 }
 
 //------------Draw, slut----------------------------------------
@@ -114,13 +124,23 @@ void draw(){
 void keyPressed(){
 
   switch(key){
-    case ' ':          //Funktion for tryk på 'Space'/'mellemrum' key på keyboard
-    player.jump(false);    
+    case ' ':          //Funktion for tryk på 'Space'/'mellemrum' key på keyboard   
+    player.jump(false); 
       break;
       
      case 'w':        //Funktion for tryk på w key på keyboard
      player.jump(false);  
       break;
+      
+     case 'g':        //lukker for menuen
+     if (menu){
+       menu = false;
+       frameCount = 0;
+       score = 0;
+       
+     }
+     
+     break;
      
     case 'b':         //Funktion for tryk på b key på keyboard
       exit();
@@ -137,7 +157,7 @@ void keyPressed(){
 //------------tegn på skærm-------------------------------------
 
 void drawToScreen(){
-  background(255);      //Baggrund overskrivet til hvid 
+  background(255);      //Baggrund overskrevet til hvid 
   stroke(0);
   strokeWeight(2);
   line(0, height - groundHeight - 5, width, height - groundHeight - 5);
@@ -241,4 +261,5 @@ void resetObstacles() {
   savesys.SaveFile(score);
   frameCount = 0;
   score = 0;
+  menu = true;
 }
