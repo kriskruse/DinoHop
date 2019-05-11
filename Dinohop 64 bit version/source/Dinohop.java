@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class DinoHop extends PApplet {
+public class Dinohop extends PApplet {
 
 PFont font;
 Player player;
@@ -663,7 +663,7 @@ class SaveSys{
 }
   public void settings() {  size(1000,400); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "DinoHop" };
+    String[] appletArgs = new String[] { "Dinohop" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

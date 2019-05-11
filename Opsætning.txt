@@ -1,0 +1,21 @@
+Sammen med mit eget arbejde skulle gerne ligge:
+1 link til den nyeste version af Processing
+1 link til den nyeste version af java 8 64bit
+
+Step 1.
+sørg for at din maksine har java 64 bit version 8 eller nyere
+link suppleret til download hvis i tvilv
+
+Step 2. 
+Download processing
+Få windows til at åbne '.pde' filerne med den version af processing der er vedlagt
+processing programmet vedlagt er fuldt og behøves ikke at blive installeret
+
+Step 3. 
+åben en vilkorlig fil i 'Dinohop ikke compiled kode' for at få alt koden vist
+I processing kan koden køres ved at trykke på den store knap i venstre hjørne
+
+Der er også mulighed for at køre en compiled version placeret i "Dinohop 64bit version" mappe 
+
+
+Udarbejdet af Kris Kruse

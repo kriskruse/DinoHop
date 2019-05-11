@@ -1,0 +1,20 @@
+Dav og velkommen til.
+
+Som set er der en masse ting i denne mappe og det kan hurtigt 
+virke uoverskueligt.
+
+Rapport, Projektbeskrivelse og Logbog findes i "Rapport" mappen
+
+
+Spillet compiled til exe findes i "Dinohop 64 bit version" mappe
+
+Koden til spillet findes i "Dinohop" mappen
+
+I tilfælde af at koden gerne vil læses, er den placeret sim bilag i rapport
+ellers kan Processing downloads og programmet åbnes med denne (følg guiden
+"Opsætning.txt")
+
+Hvis der er noget som ikke fungere af den ene eller anden grund findes
+en backup på Github: https://github.com/kriskruse/DinoHop 
+
+Kris Kruse
